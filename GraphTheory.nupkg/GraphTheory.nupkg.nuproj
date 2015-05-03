@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>7f2ea9c2-b0bb-438e-88d7-36e7490367a2</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">$(MSBuildExtensionsPath)\NuProj\</NuProjPath>
+  </PropertyGroup>
+  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
+  <PropertyGroup Label="Configuration">
+    <Id>GraphTheory</Id>
+    <Version>0.0.1-alpha</Version>
+    <Title>GraphTheory .NET</Title>
+    <Authors>Rodolfo Neuber</Authors>
+    <Owners>Rodolfo Neuber</Owners>
+    <Summary>Easily create graphs with this fluent API.</Summary>
+    <Description>A platform agnostic and fluent Graph library in C#.</Description>
+    <ReleaseNotes>
+    </ReleaseNotes>
+    <ProjectUrl>https://github.com/rhoworks/GraphTheory</ProjectUrl>
+    <LicenseUrl>http://opensource.org/licenses/GPL-2.0</LicenseUrl>
+    <Copyright>Copyright © Rodolfo Neuber</Copyright>
+    <Tags>GraphTheory</Tags>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphTheory\GraphTheory.csproj" />
+  </ItemGroup>
+  <Import Project="$(NuProjPath)\NuProj.targets" />
+</Project>

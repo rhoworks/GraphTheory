@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTheory", "GraphTheory\GraphTheory.csproj", "{4A085E44-45EF-4761-BA74-7452B50AB36B}"
 EndProject
+Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "GraphTheory.nupkg", "GraphTheory.nupkg\GraphTheory.nupkg.nuproj", "{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4A085E44-45EF-4761-BA74-7452B50AB36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A085E44-45EF-4761-BA74-7452B50AB36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A085E44-45EF-4761-BA74-7452B50AB36B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
