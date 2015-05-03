@@ -5,7 +5,7 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4a085e44-45ef-4761-ba74-7452b50ab36b}</ProjectGuid>
+    <ProjectGuid>{4A085E44-45EF-4761-BA74-7452B50AB36B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GraphTheory</RootNamespace>
@@ -33,8 +33,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\GraphTheory.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="..\GraphTheory.snk">
+      <Link>GraphTheory.snk</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
@@ -48,5 +57,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
 </Project>
