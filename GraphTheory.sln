@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTheory", "GraphTheory\
 EndProject
 Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "GraphTheory.nupkg", "GraphTheory.nupkg\GraphTheory.nupkg.nuproj", "{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTheory.Tests", "GraphTheory.Tests\GraphTheory.Tests.csproj", "{9D9B9F7A-07DD-4221-9252-A5EDD2101255}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0DDB7286-1260-42F6-97A5-FE142A615619}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -31,10 +29,6 @@ Global
 		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F2EA9C2-B0BB-438E-88D7-36E7490367A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D9B9F7A-07DD-4221-9252-A5EDD2101255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D9B9F7A-07DD-4221-9252-A5EDD2101255}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D9B9F7A-07DD-4221-9252-A5EDD2101255}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D9B9F7A-07DD-4221-9252-A5EDD2101255}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
