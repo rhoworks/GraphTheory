@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GraphTheory
 {
-    public class Class1
+    public interface IIdentifiable<T>
+        where T : Id
     {
+        T Id { get; }
     }
 }
