@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
-    <NuGetPackageVersion>0.0.1-alpha</NuGetPackageVersion>
+    <NuGetPackageVersion Condition=" '$(NuGetPackageVersion)' == '' ">0.0.1-alpha</NuGetPackageVersion>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>7f2ea9c2-b0bb-438e-88d7-36e7490367a2</ProjectGuid>
