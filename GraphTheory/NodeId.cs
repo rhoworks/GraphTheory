@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GraphTheory
 {
+    /// <summary>
+    /// Object used to uniquely identify nodes in graphs.
+    /// </summary>
     public class NodeId : Id
     {
         public NodeId()

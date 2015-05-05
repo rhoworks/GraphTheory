@@ -28,6 +28,9 @@ namespace GraphTheory
 
         private readonly ulong value;
 
+        /// <summary>
+        /// This is the value used by dictionaries and hash tables to identify corresponding objects.
+        /// </summary>
         public ulong Value { get { return this.value; } }
 
         public int CompareTo(Id other)
