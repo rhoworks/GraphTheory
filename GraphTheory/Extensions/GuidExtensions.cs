@@ -20,7 +20,7 @@ namespace GraphTheory.Extensions
                 ulong value = prime;
 
                 foreach (byte b in source.ToByteArray())
-                    value ^= prime * (ulong)b.GetHashCode();
+                    value = value * prime + (ulong)b.GetHashCode();
 
                 return value;
             }
