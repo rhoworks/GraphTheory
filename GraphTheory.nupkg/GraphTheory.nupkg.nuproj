@@ -34,6 +34,7 @@
     <LicenseUrl>http://opensource.org/licenses/GPL-2.0</LicenseUrl>
     <Copyright>Copyright © Rodolfo Neuber</Copyright>
     <Tags>GraphTheory</Tags>
+    <EmbedSourceFiles>true</EmbedSourceFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphTheory\GraphTheory.csproj" />
