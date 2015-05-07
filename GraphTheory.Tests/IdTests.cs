@@ -190,10 +190,34 @@ namespace GraphTheory.Tests
         }
 
         [Test]
-        public void EdgehId_New_Works()
+        public void EdgeId_New_Works()
         {
             var id = new EdgeId();
             Assert.That(id.Value, Is.Not.EqualTo(0));
+        }
+
+        [Test]
+        [TestCase(123456UL)]
+        public void EdgeId_New_Works_For(ulong value)
+        {
+            var id = new EdgeId(value);
+            Assert.That(id.Value, Is.EqualTo(value));
+        }
+
+        [Test]
+        [TestCase(123456UL)]
+        public void NodeId_New_Works_For(ulong value)
+        {
+            var id = new NodeId(value);
+            Assert.That(id.Value, Is.EqualTo(value));
+        }
+
+        [Test]
+        public void GraphId_Equals_Works_For_Same_Object()
+        {
+            var id = new GraphId();
+            var idObj = (object)id;
+            Assert.That(id.Equals(idObj), Is.EqualTo(true));
         }
     }
 }
