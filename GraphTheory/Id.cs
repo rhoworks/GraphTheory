@@ -8,8 +8,7 @@ using GraphTheory.Extensions;
 namespace GraphTheory
 {
     /// <summary>
-    /// Identifier that uses GUIDs for uniqueness.
-    /// Used by graphs, nodes, edges, etc. to uniquely identify objects.
+    /// Identifier used by graphs, nodes, edges, etc. to uniquely identify objects.
     /// </summary>
     public abstract class Id : IComparable<Id>, IEquatable<Id>
     {
