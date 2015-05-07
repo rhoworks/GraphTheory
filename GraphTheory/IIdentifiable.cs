@@ -13,6 +13,9 @@ namespace GraphTheory
     public interface IIdentifiable<T>
         where T : Id
     {
+        /// <summary>
+        /// Unique Id for the current type.
+        /// </summary>
         T Id { get; }
     }
 }

@@ -82,14 +82,20 @@ namespace GraphTheory.Tests
         public void GraphId_LogicalEqualsOp_Works_For_Equal_References()
         {
             GraphId x = new GraphId();
+            
+            #pragma warning disable 1718
             Assert.True(x == x);
+            #pragma warning restore 1718
         }
 
         [Test]
         public void GraphId_LogicalNotEqualsOp_Works_For_Equal_References()
         {
             GraphId x = new GraphId();
+
+            #pragma warning disable 1718
             Assert.False(x != x);
+            #pragma warning restore 1718
         }
 
         [Test]

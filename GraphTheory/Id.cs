@@ -12,6 +12,10 @@ namespace GraphTheory
     /// </summary>
     public abstract class Id : IComparable<Id>, IEquatable<Id>
     {
+        /// <summary>
+        /// Initializes a new instance of an Id.
+        /// </summary>
+        /// <param name="value">Specifies the value of this Id.</param>
         protected Id(Guid value)
         {
             if (Guid.Empty.Equals(value))
@@ -20,6 +24,10 @@ namespace GraphTheory
             this.value = value.ToUlong();
         }
 
+        /// <summary>
+        /// Initializes a new instance of an Id.
+        /// </summary>
+        /// <param name="value">Specifies the value of this Id.</param>
         protected Id(ulong value)
         {
             this.value = value;
@@ -32,6 +40,10 @@ namespace GraphTheory
         /// </summary>
         public ulong Value { get { return this.value; } }
 
+        /// <summary>
+        /// Compares this instance to a specified Id and returns an indication of their relative values.
+        /// </summary>
+        /// <param name="other">An Id to compare.</param>
         public int CompareTo(Id other)
         {
             if (ReferenceEquals(other, null))
@@ -40,6 +52,10 @@ namespace GraphTheory
             return Value.CompareTo(other.Value);
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="other">The object to compare with the current object.</param>
         public bool Equals(Id other)
         {
             if (ReferenceEquals(other, null))
@@ -48,11 +64,18 @@ namespace GraphTheory
             return Value.Equals(other.Value);
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
         public override int GetHashCode()
         {
             return Value.GetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))
@@ -61,6 +84,12 @@ namespace GraphTheory
             return Equals(obj as Id);
         }
 
+
+        /// <summary>
+        /// Determines whether the specified objects are equal.
+        /// </summary>
+        /// <param name="lhs">The left hand side.</param>
+        /// <param name="rhs">The right hand side.</param>
         public static bool operator ==(Id lhs, Id rhs)
         {
             if (object.ReferenceEquals(lhs, rhs)) return true;
@@ -70,13 +99,14 @@ namespace GraphTheory
             return lhs.Equals(rhs);
         }
 
+        /// <summary>
+        /// Determines whether the specified objects are not equal.
+        /// </summary>
+        /// <param name="lhs">The left hand side.</param>
+        /// <param name="rhs">The right hand side.</param>
         public static bool operator !=(Id lhs, Id rhs)
         {
-            if (object.ReferenceEquals(lhs, rhs)) return false;
-            if (object.ReferenceEquals(lhs, null)) return true;
-            if (object.ReferenceEquals(rhs, null)) return true;
-
-            return !lhs.Equals(rhs);
+            return !(lhs == rhs);
         }
     }
 }
