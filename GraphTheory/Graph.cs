@@ -6,45 +6,49 @@ using System.Threading.Tasks;
 
 namespace GraphTheory
 {
+    /// <summary>
+    /// The base type for weighted and unweighted graphs.
+    /// </summary>
+    /// <typeparam name="T">Type for nodes.</typeparam>
+    /// <typeparam name="E">Type of edge.</typeparam>
     public abstract class GraphDiagram<T, E> : Diagram<GraphNode<T, E>, E>
         where E : IEdge
     {
+        /// <summary>
+        /// Initializes a GraphDiagram with a random id.
+        /// </summary>
         protected GraphDiagram()
             : this(new GraphId())
         {
         }
 
+        /// <summary>
+        /// Initializes a GraphDiagram with a specific id.
+        /// </summary>
+        /// <param name="id">The id for the graph.</param>
         protected GraphDiagram(GraphId id)
-            : this(id, new List<GraphNode<T, E>>())
+            : this(id, null)
         {
         }
 
-        protected GraphDiagram(GraphId id, IEnumerable<GraphNode<T, E>> nodes)
-            : this(id, nodes, new List<E>())
-        {
-        }
-
-        protected GraphDiagram(GraphId id, IEnumerable<GraphNode<T, E>> nodes, IEnumerable<E> edges)
+        /// <summary>
+        /// Initializes a GraphDiagram with a specific id and custom comparer to be used by the data tracker.
+        /// </summary>
+        /// <param name="id">The id for the graph.</param>
+        /// <param name="comparer">The comparer used by the data tracker (Dictionary object).</param>
+        protected GraphDiagram(GraphId id, IEqualityComparer<T> comparer)
             : base(id, new Dictionary<NodeId, GraphNode<T, E>>(), new Dictionary<EdgeId, E>())
         {
-            if (null == nodes)
-                throw new ArgumentNullException();
-
-            if (null == edges)
-                throw new ArgumentNullException();
-
             this.connected = new Dictionary<NodeId, ISet<EdgeId>>();
-            this.lookup = new Dictionary<T, ISet<NodeId>>();
 
-            foreach (var node in nodes)
-                Insert(node);
-
-            foreach (var edge in edges)
-                Insert(edge);
+            if (null == comparer)
+                this.tracker = new Dictionary<T, ISet<NodeId>>();
+            else
+                this.tracker = new Dictionary<T, ISet<NodeId>>(comparer);
         }
 
         private readonly IDictionary<NodeId, ISet<EdgeId>> connected;
-        private readonly IDictionary<T, ISet<NodeId>> lookup;
+        private readonly IDictionary<T, ISet<NodeId>> tracker;
 
         /// <summary>
         /// Selects all the edges connected to a specified node by id.
@@ -58,48 +62,90 @@ namespace GraphTheory
             return this.connected[id];
         }
 
-        public IEnumerable<GraphNode<T, E>> Select(T datum, params T[] data)
-        {
-            yield return Select(datum);
-
-            foreach (T arg in data)
-                yield return Select(arg);
-        }
-
+        /// <summary>
+        /// Selects a node by value (first instance only).
+        /// </summary>
+        /// <param name="data">The value to lookup the node by.</param>
         public GraphNode<T, E> Select(T data)
         {
             if (null == data)
                 throw new ArgumentNullException();
 
-            if (!this.lookup.ContainsKey(data))
+            if (!this.tracker.ContainsKey(data))
                 throw new Exception();
 
-            NodeId id = this.lookup[data].First();
+            NodeId id = this.tracker[data].First();
 
             return Select(id);
         }
 
-        public IEnumerable<GraphNode<T, E>> Insert(T data, params T[] more)
+        /// <summary>
+        /// Selects nodes by value (first instance only).
+        /// </summary>
+        /// <param name="data">The values to lookup the node by.</param>
+        public IEnumerable<GraphNode<T, E>> Select(params T[] data)
         {
-            yield return Insert(data);
-
-            foreach (T arg in more)
-                yield return Insert(arg);
+            foreach (T item in data)
+                yield return Select(item);
         }
 
-        public GraphNode<T, E> Insert(T data)
+        /// <summary>
+        /// Selects all nodes that have a specific value.
+        /// </summary>
+        /// <param name="data">The value to lookup the nodes by.</param>
+        /// <returns></returns>
+        public IEnumerable<GraphNode<T, E>> SelectAll(T data)
         {
-            return Insert(new GraphNode<T, E>(data, this));
+            if (null == data)
+                throw new ArgumentNullException();
+
+            if (!this.tracker.ContainsKey(data))
+                throw new Exception();
+
+            foreach (NodeId id in this.tracker[data])
+                yield return Select(id);
         }
 
-        public IEnumerable<GraphNode<T, E>> Insert(GraphNode<T, E> node, params GraphNode<T, E>[] more)
+        /// <summary>
+        /// Selects all nodes that have a specific value.
+        /// </summary>
+        /// <param name="data">The values to lookup the nodes by.</param>
+        public IEnumerable<GraphNode<T, E>> SelectAll(params T[] data)
         {
-            yield return Insert(node);
+            if (null == data)
+                throw new ArgumentNullException();
 
-            foreach (GraphNode<T, E> arg in more)
-                yield return Insert(arg);
+            foreach (T item in data)
+            {
+                if (!this.tracker.ContainsKey(item))
+                    throw new Exception();
+            }
+
+            foreach (T item in data)
+            {
+                foreach (NodeId id in this.tracker[item])
+                    yield return Select(id);
+            }
         }
 
+        /// <summary>
+        /// Inserts new nodes into the graph by specifying values.
+        /// </summary>
+        /// <param name="data">The values to create nodes by.</param>
+        public IEnumerable<GraphNode<T, E>> Insert(params T[] data)
+        {
+            if (null == data)
+                throw new ArgumentNullException();
+
+            foreach (T item in data)
+                yield return Insert(new GraphNode<T, E>(item, this));
+        }
+
+
+        /// <summary>
+        /// Inserts a new node into the graph.
+        /// </summary>
+        /// <param name="node">The node to be added to the graph.</param>
         public GraphNode<T, E> Insert(GraphNode<T, E> node)
         {
             if (null == node)
@@ -111,43 +157,18 @@ namespace GraphTheory
             this.nodes.Add(node.Id, node);
             this.connected.Add(node.Id, new HashSet<EdgeId>());
 
-            if (!this.lookup.ContainsKey(node.Value))
-                this.lookup.Add(node.Value, new HashSet<NodeId>());
+            if (!this.tracker.ContainsKey(node.Value))
+                this.tracker.Add(node.Value, new HashSet<NodeId>());
 
-            this.lookup[node.Value].Add(node.Id);
+            this.tracker[node.Value].Add(node.Id);
 
             return node;
         }
 
-        public void Remove(NodeId id, params NodeId[] more)
-        {
-            Remove(id);
-
-            foreach (NodeId arg in more)
-                Remove(arg);
-        }
-
-        public void Remove(NodeId id)
-        {
-            if (null == id)
-                throw new ArgumentNullException();
-
-            foreach (EdgeId edgeId in SelectConnectedTo(id))
-                Remove(edgeId);
-
-            GraphNode<T, E> node = Select(id);
-            this.lookup[node.Value].Remove(id);
-            this.nodes.Remove(id);
-        }
-
-        public IEnumerable<E> Insert(E edge, params E[] more)
-        {
-            yield return Insert(edge);
-
-            foreach (E arg in more)
-                yield return Insert(arg);
-        }
-
+        /// <summary>
+        /// Inserts a new edge into the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added to the graph.</param>
         public E Insert(E edge)
         {
             if (null == edge)
@@ -170,69 +191,123 @@ namespace GraphTheory
             return edge;
         }
 
-        public void Remove(EdgeId id, params EdgeId[] more)
+        /// <summary>
+        /// Removes nodes by id.
+        /// </summary>
+        /// <param name="ids">The ids to remove nodes by.</param>
+        public void Remove(params NodeId[] ids)
         {
-            Remove(id);
-
-            foreach (EdgeId arg in more)
-                Remove(arg);
-        }
-
-        public void Remove(EdgeId id)
-        {
-            if (null == id)
+            if (null == ids)
                 throw new ArgumentNullException();
 
-            foreach (NodeId nodeId in SelectConnectedTo(id))
-                this.connected[nodeId].Remove(id);
+            foreach (NodeId id in ids)
+            {
+                if (!this.nodes.ContainsKey(id))
+                    throw new Exception();
+            }
 
-            this.edges.Remove(id);
+            foreach (NodeId id in ids)
+            {
+                foreach (EdgeId edgeId in SelectConnectedTo(id))
+                    Remove(edgeId);
+
+                GraphNode<T, E> node = Select(id);
+                this.tracker[node.Value].Remove(id);
+                this.nodes.Remove(id);
+            }
+        }
+
+        /// <summary>
+        /// Removes edges by id.
+        /// </summary>
+        /// <param name="ids">The ids to remove edges by.</param>
+        public void Remove(params EdgeId[] ids)
+        {
+            if (null == ids)
+                throw new ArgumentNullException();
+
+            foreach (EdgeId id in ids)
+            {
+                if (!this.edges.ContainsKey(id))
+                    throw new Exception();
+            }
+
+            foreach (EdgeId id in ids)
+            {
+                foreach (NodeId nodeId in SelectConnectedTo(id))
+                    this.connected[nodeId].Remove(id);
+
+                this.edges.Remove(id);
+            }
         }
     }
 
+    /// <summary>
+    /// Represents an unweighted graph.
+    /// </summary>
+    /// <typeparam name="T">Type for nodes.</typeparam>
     public class Graph<T> : GraphDiagram<T, UndirectedEdge>
     {
+        /// <summary>
+        /// Initializes a new unweighted graph with a random id.
+        /// </summary>
         public Graph()
             : this(new GraphId())
         {
         }
 
+        /// <summary>
+        /// Initializes a new unweighted graph with a specified id.
+        /// </summary>
+        /// <param name="id">The id used by the graph.</param>
         public Graph(GraphId id)
-            : this(id, new List<GraphNode<T, UndirectedEdge>>())
+            : this(id, null)
         {
         }
 
-        public Graph(GraphId id, IEnumerable<GraphNode<T, UndirectedEdge>> nodes)
-            : this(id, nodes, new List<UndirectedEdge>())
-        {
-        }
-
-        public Graph(GraphId id, IEnumerable<GraphNode<T, UndirectedEdge>> nodes, IEnumerable<UndirectedEdge> edges)
-            : base(id, nodes, edges)
+        /// <summary>
+        /// Initializes a new unweighted graph with a specific id and custom comparer to be used by the data tracker.
+        /// </summary>
+        /// <param name="id">The id for the graph.</param>
+        /// <param name="comparer">The comparer used by the data tracker (Dictionary object).</param>
+        public Graph(GraphId id, IEqualityComparer<T> comparer)
+            : base(id, comparer)
         {
         }
     }
 
+    /// <summary>
+    /// Represents a weighted graph.
+    /// </summary>
+    /// <typeparam name="T">Type for nodes.</typeparam>
+    /// <typeparam name="W">Type for edge weights.</typeparam>
     public class Graph<T, W> : GraphDiagram<T, UndirectedEdge<W>>
         where W: IComparable<W>, IEquatable<W>
     {
+        /// <summary>
+        /// Initializes a new weighted graph with a random id.
+        /// </summary>
         public Graph()
             : this(new GraphId())
         {
         }
 
+        /// <summary>
+        /// Initializes a new weighted graph with a specified id.
+        /// </summary>
+        /// <param name="id">The id used by the graph.</param>
         public Graph(GraphId id)
-            : this(id, new List<GraphNode<T, UndirectedEdge<W>>>())
+            : this(id, null)
         {
         }
 
-        public Graph(GraphId id, IEnumerable<GraphNode<T, UndirectedEdge<W>>> nodes)
-            : this(id, nodes, new List<UndirectedEdge<W>>())
-        {
-        }
-
-        public Graph(GraphId id, IEnumerable<GraphNode<T, UndirectedEdge<W>>> nodes, IEnumerable<UndirectedEdge<W>> edges)
-            : base(id, nodes, edges)
+        /// <summary>
+        /// Initializes a new weighted graph with a specific id and custom comparer to be used by the data tracker.
+        /// </summary>
+        /// <param name="id">The id for the graph.</param>
+        /// <param name="comparer">The comparer used by the data tracker (Dictionary object).</param>
+        public Graph(GraphId id, IEqualityComparer<T> comparer)
+            : base(id, comparer)
         {
         }
     }

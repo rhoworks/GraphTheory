@@ -38,7 +38,15 @@ namespace GraphTheory
         }
 
         private readonly GraphId id;
+
+        /// <summary>
+        /// Dictionary that tracks nodes by id.
+        /// </summary>
         protected readonly IDictionary<NodeId, V> nodes;
+
+        /// <summary>
+        /// Dictionary that tracks edges by id.
+        /// </summary>
         protected readonly IDictionary<EdgeId, E> edges;
 
         /// <summary>
@@ -53,7 +61,7 @@ namespace GraphTheory
         public GraphId Id { get { return this.id; } }
 
         /// <summary>
-        /// Selects the node by id.
+        /// Selects a node by id.
         /// </summary>
         /// <param name="id">The specified node id.</param>
         public V Select(NodeId id)
@@ -62,6 +70,16 @@ namespace GraphTheory
                 throw new ArgumentNullException();
 
             return this.nodes[id];
+        }
+
+        /// <summary>
+        /// Selects nodes by id.
+        /// </summary>
+        /// <param name="ids">The specified node ids.</param>
+        public IEnumerable<V> Select(params NodeId[] ids)
+        {
+            foreach (NodeId id in ids)
+                yield return Select(id);
         }
 
         /// <summary>
@@ -74,6 +92,16 @@ namespace GraphTheory
                 throw new ArgumentNullException();
 
             return this.edges[id];
+        }
+
+        /// <summary>
+        /// Selects edges by id.
+        /// </summary>
+        /// <param name="ids">The specified edge ids.</param>
+        public IEnumerable<E> Select(params EdgeId[] ids)
+        {
+            foreach (EdgeId id in ids)
+                yield return Select(id);
         }
 
         /// <summary>
