@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphTests.cs" />
+    <Compile Include="Helpers\CustomIntEqualityComparer.cs" />
     <Compile Include="IdTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

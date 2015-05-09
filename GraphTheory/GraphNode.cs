@@ -65,4 +65,42 @@ namespace GraphTheory
         /// </summary>
         public GraphDiagram<T, E> Graph { get { return this.graph; } }
     }
+
+    /// <summary>
+    /// Extension methods for GraphNode objects.
+    /// </summary>
+    public static class GraphNodeExtensions
+    {
+        /// <summary>
+        /// Connects source node to destination nodes selected by value.
+        /// </summary>
+        /// <typeparam name="T">Type for nodes.</typeparam>
+        /// <param name="source">The source node.</param>
+        /// <param name="data">The destination nodes selected by value.</param>
+        public static void ConnectTo<T>(this GraphNode<T, UndirectedEdge> source, params T[] data)
+        {
+            ISet<NodeId> adjacent = source.Graph.SelectAdjacentTo(source.Id);
+
+            foreach (var node in source.Graph.Select(data))
+            {
+                if (!adjacent.Contains(node.Id))
+                {
+                    var edge = new UndirectedEdge(new HashSet<NodeId> { source.Id, node.Id });
+                    source.Graph.Insert(edge);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Connects source nodes to destination nodes selected by value.
+        /// </summary>
+        /// <typeparam name="T">Type for nodes.</typeparam>
+        /// <param name="source">The source nodes.</param>
+        /// <param name="data">The destination nodes selected by value.</param>
+        public static void ConnectTo<T>(this IEnumerable<GraphNode<T, UndirectedEdge>> source, params T[] data)
+        {
+            foreach (var node in source)
+                node.ConnectTo(data);
+        }
+    }
 }

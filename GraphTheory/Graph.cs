@@ -15,23 +15,6 @@ namespace GraphTheory
         where E : IEdge
     {
         /// <summary>
-        /// Initializes a GraphDiagram with a random id.
-        /// </summary>
-        protected GraphDiagram()
-            : this(new GraphId())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a GraphDiagram with a specific id.
-        /// </summary>
-        /// <param name="id">The id for the graph.</param>
-        protected GraphDiagram(GraphId id)
-            : this(id, null)
-        {
-        }
-
-        /// <summary>
         /// Initializes a GraphDiagram with a specific id and custom comparer to be used by the data tracker.
         /// </summary>
         /// <param name="id">The id for the graph.</param>
@@ -137,8 +120,12 @@ namespace GraphTheory
             if (null == data)
                 throw new ArgumentNullException();
 
+            var nodes = new List<GraphNode<T, E>>();
+
             foreach (T item in data)
-                yield return Insert(new GraphNode<T, E>(item, this));
+                nodes.Add(Insert(new GraphNode<T, E>(item, this)));
+
+            return nodes;
         }
 
 
