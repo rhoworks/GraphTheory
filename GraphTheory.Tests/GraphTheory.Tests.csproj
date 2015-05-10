@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\GraphFactory.cs" />
     <Compile Include="GraphTests.cs" />
     <Compile Include="Helpers\CustomIntEqualityComparer.cs" />
     <Compile Include="IdTests.cs" />

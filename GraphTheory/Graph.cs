@@ -195,7 +195,7 @@ namespace GraphTheory
 
             foreach (NodeId id in ids)
             {
-                foreach (EdgeId edgeId in SelectConnectedTo(id))
+                foreach (EdgeId edgeId in SelectConnectedTo(id).ToList())
                     Remove(edgeId);
 
                 GraphNode<T, E> node = Select(id);

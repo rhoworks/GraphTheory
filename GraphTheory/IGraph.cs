@@ -16,6 +16,16 @@ namespace GraphTheory
         where E : IEdge
     {
         /// <summary>
+        /// Selects all the nodes in this graph.
+        /// </summary>
+        IEnumerable<V> Nodes { get; }
+
+        /// <summary>
+        /// Selects all the edges in this graph.
+        /// </summary>
+        IEnumerable<E> Edges { get; }
+
+        /// <summary>
         /// Selects a node by id.
         /// </summary>
         /// <param name="id">The specified node id.</param>

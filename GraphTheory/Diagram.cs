@@ -50,6 +50,28 @@ namespace GraphTheory
         protected readonly IDictionary<EdgeId, E> edges;
 
         /// <summary>
+        /// Selects all the nodes in this graph.
+        /// </summary>
+        public IEnumerable<V> Nodes
+        {
+            get
+            {
+                return this.nodes.Values;
+            }
+        }
+
+        /// <summary>
+        /// Selects all the edges in this graph.
+        /// </summary>
+        public IEnumerable<E> Edges
+        {
+            get
+            {
+                return this.edges.Values;
+            }
+        }
+
+        /// <summary>
         /// Selects all the edges connected to a specified node by id.
         /// </summary>
         /// <param name="id">The specified node id.</param>
@@ -115,7 +137,7 @@ namespace GraphTheory
 
             var adjacent = new HashSet<NodeId>();
 
-            foreach (EdgeId edgeId in SelectConnectedTo(id))
+            foreach (EdgeId edgeId in SelectConnectedTo(id).ToList())
                 adjacent.UnionWith(Select(edgeId).NodeIds());
 
             adjacent.Remove(id);

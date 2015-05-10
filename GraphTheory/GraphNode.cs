@@ -79,6 +79,12 @@ namespace GraphTheory
         /// <param name="data">The destination nodes selected by value.</param>
         public static void ConnectTo<T>(this GraphNode<T, UndirectedEdge> source, params T[] data)
         {
+            if (null == source)
+                throw new ArgumentNullException();
+
+            if (null == data)
+                throw new ArgumentNullException();
+
             ISet<NodeId> adjacent = source.Graph.SelectAdjacentTo(source.Id);
 
             foreach (var node in source.Graph.Select(data))
@@ -99,6 +105,12 @@ namespace GraphTheory
         /// <param name="data">The destination nodes selected by value.</param>
         public static void ConnectTo<T>(this IEnumerable<GraphNode<T, UndirectedEdge>> source, params T[] data)
         {
+            if (null == source)
+                throw new ArgumentNullException();
+
+            if (null == data)
+                throw new ArgumentNullException();
+
             foreach (var node in source)
                 node.ConnectTo(data);
         }
