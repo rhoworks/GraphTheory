@@ -1,0 +1,37 @@
+graph
+{
+    node[shape=circle];
+
+    a -- b;
+    
+    a -- c;
+    a -- d;
+    b -- c;
+    b -- d;
+
+    c -- d;
+
+    c -- e;
+    c -- f;
+    d -- e;
+    d -- f;
+
+    e -- f;
+
+    e -- g;
+    e -- h;
+    f -- g;
+    f -- h;
+
+    g -- h;
+
+    # columns
+    {rankdir=TB a b}
+    {rankdir=TB c d}
+    {rankdir=TB e f}
+    {rankdir=TB g h}
+
+    # rows
+    {rank=same a c e g}
+    {rank=same b d f h}
+}

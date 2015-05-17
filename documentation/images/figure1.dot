@@ -1,0 +1,9 @@
+graph
+{
+    node[shape=circle];
+    a;
+    b;
+    c;
+    d;
+    e;
+}
