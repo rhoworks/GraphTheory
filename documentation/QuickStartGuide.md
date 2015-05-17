@@ -40,7 +40,7 @@ This will create the following graph:
 This is where the GraphTheory.NET library makes a lot of sense. We are trying to make it brain dead simple to create graphs. Turns out we think that means it should be easy to specify the edges (its pretty brain dead simple to specify nodes already). Check out the following:
 
 ```cs
-var graph = new Graph< int >();
+var graph = new Graph< string >();
 graph.Insert("a", "b", "c", "d", "e");
 graph.Select("a").ConnectTo("b").ThenTo("c").ThenTo("d", "e");
 ```
