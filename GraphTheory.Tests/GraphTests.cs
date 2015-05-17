@@ -218,5 +218,109 @@ namespace GraphTheory.Tests
 
             Assert.That(edges.Count(), Is.EqualTo(3));
         }
+
+        [Test]
+        public void Can_Easily_Create_PentagonStarGraph_With_Fluent_API()
+        {
+            var expected = new GraphFactory().NewPentagonStarGraph();
+
+            var g = new Graph<int>();
+            g.Insert(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+            g.Select(0).ConnectTo(5).ThenTo(1).ThenTo(2).ThenTo(3).ThenTo(4).ThenTo(5);
+            g.Select(1).ConnectTo(6);
+            g.Select(2).ConnectTo(7);
+            g.Select(3).ConnectTo(8);
+            g.Select(4).ConnectTo(9);
+
+            var zero = g.Select(0);
+            var one = g.Select(1);
+            var two = g.Select(2);
+            var three = g.Select(3);
+            var four = g.Select(4);
+            var five = g.Select(5);
+            var six = g.Select(6);
+            var seven = g.Select(7);
+            var eight = g.Select(8);
+            var nine = g.Select(9);
+
+            Assert.That(g.Nodes.Count(), Is.EqualTo(10));
+            Assert.That(g.Edges.Count(), Is.EqualTo(10));
+
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(five.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(six.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(one.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(seven.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(three.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(eight.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(four.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(three.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(nine.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(five.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(zero.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(one.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(six.Id).Contains(one.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(seven.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(eight.Id).Contains(three.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(nine.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(zero.Id).Contains(five.Id), Is.True);
+        }
+
+        [Test]
+        public void Can_Easily_Create_Interconnected_Graph_With_Fluent_API()
+        {
+            var g = new Graph<int>();
+            g.Insert(1, 2, 3, 4, 5, 6, 7);
+            g.Select(1, 2, 3).ConnectTo(4, 5, 6).ThenTo(7);
+
+            var one = g.Select(1);
+            var two = g.Select(2);
+            var three = g.Select(3);
+            var four = g.Select(4);
+            var five = g.Select(5);
+            var six = g.Select(6);
+            var seven = g.Select(7);
+
+            Assert.That(g.Nodes.Count(), Is.EqualTo(7));
+            Assert.That(g.Edges.Count(), Is.EqualTo(12));
+
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(five.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(one.Id).Contains(six.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(five.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(two.Id).Contains(six.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(five.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(three.Id).Contains(six.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(one.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(three.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(four.Id).Contains(seven.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(one.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(three.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(five.Id).Contains(seven.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(six.Id).Contains(one.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(six.Id).Contains(two.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(six.Id).Contains(three.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(six.Id).Contains(seven.Id), Is.True);
+
+            Assert.That(g.SelectAdjacentTo(seven.Id).Contains(four.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(seven.Id).Contains(five.Id), Is.True);
+            Assert.That(g.SelectAdjacentTo(seven.Id).Contains(six.Id), Is.True);
+        }
     }
 }

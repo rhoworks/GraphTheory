@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphTheory.FluentExpressions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,43 +77,55 @@ namespace GraphTheory
         /// </summary>
         /// <typeparam name="T">Type for nodes.</typeparam>
         /// <param name="source">The source node.</param>
-        /// <param name="data">The destination nodes selected by value.</param>
-        public static void ConnectTo<T>(this GraphNode<T, UndirectedEdge> source, params T[] data)
+        /// <param name="targets">The destination nodes selected by value.</param>
+        public static ConnectToExpression<T, UndirectedEdge> ConnectTo<T>(this GraphNode<T, UndirectedEdge> source, params T[] targets)
         {
             if (null == source)
                 throw new ArgumentNullException();
 
-            if (null == data)
+            if (null == targets)
                 throw new ArgumentNullException();
 
-            ISet<NodeId> adjacent = source.Graph.SelectAdjacentTo(source.Id);
+            var factory = new ConnectionFactory();
+            var edgeIds = factory.OneToMany(source, targets);
 
-            foreach (var node in source.Graph.Select(data))
-            {
-                if (!adjacent.Contains(node.Id))
-                {
-                    var edge = new UndirectedEdge(new HashSet<NodeId> { source.Id, node.Id });
-                    source.Graph.Insert(edge);
-                }
-            }
+            var edges = source.Graph.Select(edgeIds.ToArray());
+
+            var targetNodeIds = new HashSet<NodeId>();
+            foreach (UndirectedEdge edge in edges)
+                targetNodeIds.UnionWith(edge.NodeIds());
+
+            targetNodeIds.Remove(source.Id);
+
+            var targetNodes = source.Graph.Select(targetNodeIds.ToArray());
+            return new UndirectedConnectToExpression<T>(source.Graph, targetNodes.AsEnumerable());
         }
 
-        /// <summary>
-        /// Connects source nodes to destination nodes selected by value.
-        /// </summary>
-        /// <typeparam name="T">Type for nodes.</typeparam>
-        /// <param name="source">The source nodes.</param>
-        /// <param name="data">The destination nodes selected by value.</param>
-        public static void ConnectTo<T>(this IEnumerable<GraphNode<T, UndirectedEdge>> source, params T[] data)
+        public static ConnectToExpression<T, UndirectedEdge> ConnectTo<T>(this IEnumerable<GraphNode<T, UndirectedEdge>> source, params T[] targets)
         {
             if (null == source)
                 throw new ArgumentNullException();
 
-            if (null == data)
+            if (null == targets)
                 throw new ArgumentNullException();
 
-            foreach (var node in source)
-                node.ConnectTo(data);
+            var factory = new ConnectionFactory();
+            var edgeIds = factory.ManyToMany(source, targets);
+
+            var graph = source.First();
+
+            var edges = graph.Graph.Select(edgeIds.ToArray());
+
+            var targetNodeIds = new HashSet<NodeId>();
+            
+            foreach (UndirectedEdge edge in edges)
+                targetNodeIds.UnionWith(edge.NodeIds());
+
+            foreach (GraphNode<T, UndirectedEdge> node in source)
+                targetNodeIds.Remove(node.Id);
+
+            var targetNodes = source.First().Graph.Select(targetNodeIds.ToArray());
+            return new UndirectedConnectToExpression<T>(graph.Graph, targetNodes.AsEnumerable());
         }
     }
 }

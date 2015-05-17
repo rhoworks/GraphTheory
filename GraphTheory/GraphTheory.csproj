@@ -48,9 +48,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Diagram.cs" />
     <Compile Include="EdgeId.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
+    <Compile Include="FluentExpressions\ConnectToExpression.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphId.cs" />
     <Compile Include="GraphNode.cs" />
@@ -63,9 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UndirectedEdge.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FluentExpressions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
