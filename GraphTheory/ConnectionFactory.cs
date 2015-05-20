@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace GraphTheory
 {
+    /// <summary>
+    /// Creates edges for graph nodes.
+    /// </summary>
     public class ConnectionFactory
     {
+        /// <summary>
+        /// Creates a connection between the source and each target.
+        /// </summary>
+        /// <typeparam name="T">Type for nodes.</typeparam>
+        /// <param name="source">The source node.</param>
+        /// <param name="targets">The target nodes.</param>
         public IEnumerable<EdgeId> OneToMany<T>(GraphNode<T, UndirectedEdge> source, params T[] targets)
         {
             if (null == source)
@@ -32,6 +41,12 @@ namespace GraphTheory
             return results;
         }
 
+        /// <summary>
+        /// Creates a one-to-many relationship between each source node and each target.
+        /// </summary>
+        /// <typeparam name="T">Type for nodes.</typeparam>
+        /// <param name="sources">The set of source nodes.</param>
+        /// <param name="targets">The set of target nodes.</param>
         public IEnumerable<EdgeId> ManyToMany<T>(IEnumerable<GraphNode<T, UndirectedEdge>> sources, params T[] targets)
         {
             var result = new HashSet<EdgeId>();

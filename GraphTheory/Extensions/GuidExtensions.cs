@@ -20,8 +20,8 @@ namespace GraphTheory.Extensions
         /// <param name="source">The current Guid object.</param>
         public static ulong ToUlong(this Guid source)
         {
-            if (null == source)
-                throw new ArgumentNullException(); // todo: specify parameter
+            if (Guid.Empty == source)
+                throw new ArgumentException(); // todo: specify parameter
 
             unchecked
             {

@@ -6,14 +6,29 @@ using System.Threading.Tasks;
 
 namespace GraphTheory.FluentExpressions
 {
+    /// <summary>
+    /// Represents the base type for "ConnectTo" expressions.
+    /// </summary>
     public abstract class ConnectToExpression<T, E>
         where E: IEdge
     {
+        /// <summary>
+        /// Extends the fluent syntax for edge creation.
+        /// </summary>
+        /// <param name="data">The target data (to be converted to nodes).</param>
         public abstract ConnectToExpression<T, UndirectedEdge> ThenTo(params T[] data);
     }
 
+    /// <summary>
+    /// Represents the Undirected Edge type for "ConnectTo" expressions.
+    /// </summary>
     public class UndirectedConnectToExpression<T> : ConnectToExpression<T, UndirectedEdge>
     {
+        /// <summary>
+        /// Initializes a new instance of the UndirectedConnectToExpression object.
+        /// </summary>
+        /// <param name="graph">Reference to the graph that contains all nodes in the set of sources.</param>
+        /// <param name="sources">The set of sources.</param>
         public UndirectedConnectToExpression(GraphDiagram<T, UndirectedEdge> graph, IEnumerable<GraphNode<T, UndirectedEdge>> sources)
         {
             if (null == graph)
@@ -29,6 +44,10 @@ namespace GraphTheory.FluentExpressions
         private readonly GraphDiagram<T, UndirectedEdge> graph;
         private readonly IEnumerable<GraphNode<T, UndirectedEdge>> sources;
 
+        /// <summary>
+        /// Extends the fluent syntax for edge creation.
+        /// </summary>
+        /// <param name="data">The target data (to be converted to nodes).</param>
         public override ConnectToExpression<T, UndirectedEdge> ThenTo(params T[] data)
         {
             if (null == data)

@@ -222,8 +222,6 @@ namespace GraphTheory.Tests
         [Test]
         public void Can_Easily_Create_PentagonStarGraph_With_Fluent_API()
         {
-            var expected = new GraphFactory().NewPentagonStarGraph();
-
             var g = new Graph<int>();
             g.Insert(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
             g.Select(0).ConnectTo(5).ThenTo(1).ThenTo(2).ThenTo(3).ThenTo(4).ThenTo(5);
