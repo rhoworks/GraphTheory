@@ -89,8 +89,11 @@ graph.Select("a").ConnectTo("b").Weighing(1);
 The rest would look like this:
 
 ![](images/figure6.dot.png)
+
 ![](images/figure7.dot.png)
+
 ![](images/figure8.dot.png)
+
 ![](images/figure9.dot.png)
 
 Its just something to keep in mind. You can always use some sort of synchronization construct (lock, semaphor, mutex, etc.) if this sort of behavior is a problem.
