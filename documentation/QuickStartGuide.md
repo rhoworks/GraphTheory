@@ -49,3 +49,48 @@ This will produce the following graph:
 
 ![](images/figure2.dot.png)
 
+#### And what about weighted Graphs?
+
+I have yet to write the code to make the following work; however, I do think that its fairly easy to write---I just need to find the time. Anyway, I have been thinking about this one a lot and I think I found a way that makes sense but there is a small catch... 
+
+Okay, lets add weights to the graph above. How do we do that?
+
+```cs
+var graph = new Graph< string,int >();
+graph.Insert("a", "b", "c", "d", "e");
+graph.Select("a").ConntectTo("b").Weighing(1)
+                 .ThenTo("c").Weighing(2)
+                 .ThenTo("d", "e").Weighing(3);
+```
+
+This will create the following graph:
+
+![](images/figure3.dot.png)
+
+So, what's the catch? I think its easier if you see it yourself. Let's break this down one step at a time. First, let's connect `a` and `b` together.
+
+```cs
+var graph = new Graph< string,int >();
+graph.Insert("a", "b", "c", "d", "e");
+graph.Select("a").ConntectTo("b");
+```
+
+What does our graph look like now?
+
+![](images/figure4.dot.png)
+
+What's with the `0`? Well, since you haven't specified a weight yet, you get the default value associated with the weight type. If you rolled out your own custom weight class, then it would be null; however, if it was a struct then it would be created with the default constructor. Let's continue.
+
+```cs
+graph.Select("a").ConnectTo("b").Weighing(1);
+```
+![](images/figure5.dot.png)
+
+The rest would look like this:
+
+![](images/figure6.dot.png)
+![](images/figure7.dot.png)
+![](images/figure8.dot.png)
+![](images/figure9.dot.png)
+
+Its just something to keep in mind. You can always use some sort of synchronization construct (lock, semaphor, mutex, etc.) if this sort of behavior is a problem.

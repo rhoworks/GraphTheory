@@ -1,0 +1,9 @@
+graph
+{
+    node[shape=circle];
+    a -- b[label="1"];
+    c;
+    d;
+    e;
+    {rank=same rankdir=LR a b c d e}
+}
