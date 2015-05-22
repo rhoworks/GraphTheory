@@ -24,3 +24,5 @@ g3.Insert(3.14159);
 ```
 
 Please contact me when you visit http://rho.works and fire a question my way on one of the posts.
+
+I have been adding [documentation](documentation/QuickStartGuide.md) to help understand how to use this library. While its still early, it might be an interesting read, check it out.
