@@ -1,0 +1,14 @@
+graph
+{
+    node[shape=circle];
+    rankdir=LR;
+    a -- b -- c -- d -- e;
+    e -- a[color="#ffff00"];
+    a -- f;
+    b -- g;
+    c -- h;
+    d -- i;
+    e -- j;
+    a[style=filled,fillcolor="#ff0000"];
+    e[style=filled,fillcolor="#ff0000"];
+}
