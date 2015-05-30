@@ -1,7 +1,7 @@
 Platform=AnyCPU
 Configuration=Debug
 
-all: graphtheory graphtheorytests
+all: graphtheory graphtheorytests test
 
 setuprelease:
 	Platform=AnyCPU
