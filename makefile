@@ -1,7 +1,7 @@
 Platform=AnyCPU
 Configuration=Debug
 
-all: nuget graphtheory graphtheorytests
+all: graphtheory graphtheorytests
 
 setuprelease:
 	Platform=AnyCPU
@@ -18,8 +18,12 @@ debug: setupdebug all
 nuget:
 	nuget restore GraphTheory.sln
 
-graphtheory:
+graphtheory: nuget
 	xbuild GraphTheory/GraphTheory.csproj /p:Configuration=$(Configuration) /p:Platform=$(Platform)
 
-graphtheorytests:
+graphtheorytests: nuget
 	xbuild GraphTheory.Tests/GraphTheory.Tests.csproj /p:Configuration=$(Configuration) /p:Platform=$(Platform)
+
+test: 
+	mono ./packages/NUnit.Runners.2.6.4/tools/nunit-console.exe GraphTheory.Tests/bin/$(Configuration)/GraphTheory.Tests.dll
+
